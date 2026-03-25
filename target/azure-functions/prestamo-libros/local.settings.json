@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "java",
+    "ORACLE_USERNAME": "CLOUDSUMATIVA",
+    "ORACLE_PASSWORD": "Wfav277coinx_oc",
+    "ORACLE_TNS_NAME": "zbfuyhmceud2olz0_tp"
+  }
+}

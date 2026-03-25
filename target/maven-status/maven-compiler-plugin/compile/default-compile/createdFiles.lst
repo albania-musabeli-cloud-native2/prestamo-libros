@@ -1,0 +1,13 @@
+com\musabeli\config\GsonConfig.class
+com\musabeli\entities\Prestamo.class
+com\musabeli\repository\LibroRepository.class
+com\musabeli\repository\PrestamoRepository.class
+com\musabeli\functions\UsuariosFunction.class
+com\musabeli\functions\PrestamosLibrosFunction.class
+com\musabeli\repository\UsuarioRepository.class
+com\musabeli\entities\Prestamo$PrestamoBuilder.class
+com\musabeli\entities\Usuario.class
+com\musabeli\config\DatabaseConfig.class
+com\musabeli\entities\Usuario$UsuarioBuilder.class
+com\musabeli\entities\Libro$LibroBuilder.class
+com\musabeli\entities\Libro.class
