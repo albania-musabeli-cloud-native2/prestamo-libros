@@ -1,0 +1,16 @@
+{
+  "scriptFile" : "../prestamo-libros-1.0-SNAPSHOT.jar",
+  "entryPoint" : "com.musabeli.functions.PrestamosLibrosFunction.getLibroById",
+  "bindings" : [ {
+    "type" : "httpTrigger",
+    "direction" : "in",
+    "name" : "req",
+    "route" : "libros/{id}",
+    "methods" : [ "GET" ],
+    "authLevel" : "ANONYMOUS"
+  }, {
+    "type" : "http",
+    "direction" : "out",
+    "name" : "$return"
+  } ]
+}
