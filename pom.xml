@@ -79,6 +79,13 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Graphql -->
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
+            <version>25.0</version>
+        </dependency>
     </dependencies>
 
     <build>

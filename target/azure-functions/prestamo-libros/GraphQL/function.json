@@ -1,11 +1,11 @@
 {
   "scriptFile" : "../prestamo-libros-1.0-SNAPSHOT.jar",
-  "entryPoint" : "com.musabeli.functions.PrestamosLibrosFunction.createPrestamo",
+  "entryPoint" : "com.musabeli.functions.GraphQLFunction.execute",
   "bindings" : [ {
     "type" : "httpTrigger",
     "direction" : "in",
     "name" : "req",
-    "route" : "prestamos",
+    "route" : "graphql",
     "methods" : [ "POST" ],
     "authLevel" : "ANONYMOUS"
   }, {

@@ -1,0 +1,20 @@
+type Prestamo {
+    id: ID
+    idUsuario: ID
+    idLibro: ID
+    fechaInicio: String
+    fechaFin: String
+    estado: String
+    createdAt: String
+}
+
+type Query {
+    prestamos: [Prestamo]
+    prestamo(id: ID!): Prestamo
+}
+
+type Mutation {
+    crearPrestamo(idUsuario: ID!, idLibro: ID!, fechaInicio: String!, fechaFin: String!, estado: String!): Prestamo
+    actualizarPrestamo(id: ID!, idUsuario: ID, idLibro: ID, fechaInicio: String, fechaFin: String, estado: String): Boolean
+    eliminarPrestamo(id: ID!): Boolean
+}

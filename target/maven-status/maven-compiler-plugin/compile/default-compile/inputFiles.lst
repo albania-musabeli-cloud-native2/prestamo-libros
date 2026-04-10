@@ -3,8 +3,11 @@ D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\con
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Libro.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Prestamo.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Usuario.java
+D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\GraphQLFunction.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\PrestamosLibrosFunction.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\UsuariosFunction.java
+D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\graphql\GraphQLConfig.java
+D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\graphql\PrestamoDataFetchers.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\repository\LibroRepository.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\repository\PrestamoRepository.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\repository\UsuarioRepository.java
