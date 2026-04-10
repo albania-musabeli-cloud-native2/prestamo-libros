@@ -1,12 +1,16 @@
 # Prestamo Libros - Azure Functions
 
-API REST para la gestión de préstamos de libros, desarrollada con Azure Functions y Java 21, conectada a una base de datos Oracle Cloud.
+API para la gestión de préstamos de libros, desarrollada con Azure Functions y Java 21, conectada a una base de datos Oracle Cloud.
+
+- **Usuarios y Libros** exponen una API REST tradicional.
+- **Préstamos** exponen una API GraphQL a través de un único endpoint.
 
 ## Tecnologías
 
 - Java 21
 - Azure Functions (v4)
 - Oracle Database (JDBC + Wallet)
+- GraphQL Java 25.0
 - Gson 2.11
 - Lombok
 - JUnit 5 + Mockito
@@ -46,7 +50,7 @@ La API estará disponible en `http://localhost:7071/api/`
 
 ---
 
-## Endpoints
+## Endpoints REST
 
 ### Usuarios
 
@@ -92,41 +96,123 @@ La API estará disponible en `http://localhost:7071/api/`
 
 ---
 
-### Préstamos
+## Endpoint GraphQL — Préstamos
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/api/prestamos` | Listar todos los préstamos |
-| GET | `/api/prestamos/{id}` | Obtener préstamo por ID |
-| POST | `/api/prestamos` | Crear préstamo |
-| PUT | `/api/prestamos/{id}` | Actualizar préstamo |
-| DELETE | `/api/prestamos/{id}` | Eliminar préstamo |
+Todos los préstamos se gestionan a través de un único endpoint GraphQL:
 
-#### Body - POST Préstamo
+```
+POST /api/graphql
+Content-Type: application/json
+```
+
+El body siempre tiene la forma:
 
 ```json
 {
-  "idUsuario": 1,
-  "idLibro": 1,
-  "fechaInicio": "2026-03-25",
-  "fechaFin": "2026-04-08",
-  "estado": "ACTIVO"
+  "query": "..."
 }
 ```
 
-#### Body - PUT Préstamo
+### Schema
+
+```graphql
+type Prestamo {
+    id: ID
+    idUsuario: ID
+    idLibro: ID
+    fechaInicio: String
+    fechaFin: String
+    estado: String
+    createdAt: String
+}
+
+type Query {
+    prestamos: [Prestamo]
+    prestamo(id: ID!): Prestamo
+}
+
+type Mutation {
+    crearPrestamo(idUsuario: ID!, idLibro: ID!, fechaInicio: String!, fechaFin: String!, estado: String!): Prestamo
+    actualizarPrestamo(id: ID!, idUsuario: ID, idLibro: ID, fechaInicio: String, fechaFin: String, estado: String): Boolean
+    eliminarPrestamo(id: ID!): Boolean
+}
+```
+
+### Operaciones
+
+#### Listar todos los préstamos
 
 ```json
 {
-  "idUsuario": 1,
-  "idLibro": 1,
-  "fechaInicio": "2026-03-25",
-  "fechaFin": "2026-04-08",
-  "estado": "DEVUELTO"
+  "query": "{ prestamos { id idUsuario idLibro fechaInicio fechaFin estado createdAt } }"
 }
 ```
 
-> Los valores para `estado` son: `ACTIVO`, `DEVUELTO`.
+#### Obtener préstamo por ID
+
+```json
+{
+  "query": "{ prestamo(id: 1) { id idUsuario idLibro fechaInicio fechaFin estado createdAt } }"
+}
+```
+
+#### Crear préstamo
+
+```json
+{
+  "query": "mutation { crearPrestamo(idUsuario: 1, idLibro: 1, fechaInicio: \"2026-04-07\", fechaFin: \"2026-04-21\", estado: \"ACTIVO\") { id idUsuario idLibro fechaInicio fechaFin estado } }"
+}
+```
+
+#### Actualizar préstamo
+
+Solo se envían los campos que se desean modificar:
+
+```json
+{
+  "query": "mutation { actualizarPrestamo(id: 1, estado: \"DEVUELTO\") }"
+}
+```
+
+#### Eliminar préstamo
+
+```json
+{
+  "query": "mutation { eliminarPrestamo(id: 1) }"
+}
+```
+
+### Respuesta exitosa
+
+```json
+{
+  "data": {
+    "prestamos": [
+      {
+        "id": "1",
+        "idUsuario": "1",
+        "idLibro": "2",
+        "fechaInicio": "2026-04-07",
+        "fechaFin": "2026-04-21",
+        "estado": "ACTIVO",
+        "createdAt": "2026-04-07T10:30:00"
+      }
+    ]
+  }
+}
+```
+
+### Respuesta con error
+
+```json
+{
+  "errors": [
+    { "message": "Descripción del error" }
+  ]
+}
+```
+
+> Los valores válidos para `estado` son: `ACTIVO`, `DEVUELTO`.
 
 ---
 
@@ -134,21 +220,29 @@ La API estará disponible en `http://localhost:7071/api/`
 
 ```
 src/
-├── main/java/com/musabeli/
-│   ├── config/
-│   │   ├── DatabaseConfig.java      # Conexión Oracle con Wallet
-│   │   └── GsonConfig.java          # Configuración de Gson
-│   ├── entities/
-│   │   ├── Usuario.java
-│   │   ├── Libro.java
-│   │   └── Prestamo.java
-│   ├── repository/
-│   │   ├── UsuarioRepository.java
-│   │   ├── LibroRepository.java
-│   │   └── PrestamoRepository.java
-│   └── functions/
-│       ├── UsuariosFunction.java
-│       └── PrestamosLibrosFunction.java
+├── main/
+│   ├── java/com/musabeli/
+│   │   ├── config/
+│   │   │   ├── DatabaseConfig.java          # Conexión Oracle con Wallet
+│   │   │   └── GsonConfig.java              # Configuración de Gson
+│   │   ├── entities/
+│   │   │   ├── Usuario.java
+│   │   │   ├── Libro.java
+│   │   │   └── Prestamo.java
+│   │   ├── repository/
+│   │   │   ├── UsuarioRepository.java
+│   │   │   ├── LibroRepository.java
+│   │   │   └── PrestamoRepository.java
+│   │   ├── graphql/
+│   │   │   ├── GraphQLConfig.java           # Construcción del motor GraphQL
+│   │   │   └── PrestamoDataFetchers.java    # Resolvers de préstamos
+│   │   └── functions/
+│   │       ├── UsuariosFunction.java        # REST: usuarios
+│   │       ├── PrestamosLibrosFunction.java # REST: libros
+│   │       └── GraphQLFunction.java         # GraphQL: préstamos
+│   └── resources/
+│       ├── prestamo.graphqls                # Schema GraphQL
+│       └── wallet/                          # Wallet Oracle Cloud
 └── test/java/com/musabeli/
     └── FunctionTest.java
 ```
