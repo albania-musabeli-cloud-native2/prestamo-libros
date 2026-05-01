@@ -3,6 +3,7 @@ D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\con
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Libro.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Prestamo.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\entities\Usuario.java
+D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\events\EventGridPublisher.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\GraphQLFunction.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\PrestamosLibrosFunction.java
 D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\src\main\java\com\musabeli\functions\UsuariosFunction.java

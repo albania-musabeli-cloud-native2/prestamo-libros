@@ -1,6 +1,7 @@
 package com.musabeli.graphql;
 
 import com.musabeli.entities.Prestamo;
+import com.musabeli.events.EventGridPublisher;
 import com.musabeli.repository.PrestamoRepository;
 import graphql.schema.DataFetcher;
 
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 public class PrestamoDataFetchers {
 
     private final PrestamoRepository repo = new PrestamoRepository();
+    private final EventGridPublisher eventGridPublisher = new EventGridPublisher();
 
     public DataFetcher<Object> getPrestamosFetcher() {
         return env -> repo.findAll();
@@ -30,7 +32,9 @@ public class PrestamoDataFetchers {
                     .fechaFin(LocalDate.parse(env.getArgument("fechaFin")))
                     .estado(env.getArgument("estado"))
                     .build();
-            return repo.create(p);
+            Prestamo creado = repo.create(p);
+            eventGridPublisher.publicarPrestamoCreado(creado);
+            return creado;
         };
     }
 

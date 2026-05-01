@@ -11,6 +11,7 @@ API para la gestión de préstamos de libros, desarrollada con Azure Functions y
 - Azure Functions (v4)
 - Oracle Database (JDBC + Wallet)
 - GraphQL Java 25.0
+- Azure Event Grid (azure-messaging-eventgrid 4.20.0)
 - Gson 2.11
 - Lombok
 - JUnit 5 + Mockito
@@ -32,9 +33,11 @@ Editar `local.settings.json` con las credenciales de Oracle:
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "java",
-    "ORACLE_USERNAME": "tu_usuario",
-    "ORACLE_PASSWORD": "tu_contraseña",
-    "ORACLE_TNS_NAME": "tu_tns_name"
+    "ORACLE_USERNAME": "mi_usuario",
+    "ORACLE_PASSWORD": "mi_contraseña",
+    "ORACLE_TNS_NAME": "mi_tns_name",
+    "EVENT_GRID_TOPIC_ENDPOINT": "https://<topic>.eventgrid.azure.net/api/events",
+    "EVENT_GRID_TOPIC_KEY": "mi_access_key"
   }
 }
 ```
@@ -67,7 +70,7 @@ La API estará disponible en `http://localhost:7071/api/`
 ```json
 {
   "nombre": "Albania Musabeli",
-  "email": "albaniamusabeli@gmail.com"
+  "email": "albaniamusabeli@correo.com"
 }
 ```
 
@@ -93,6 +96,40 @@ La API estará disponible en `http://localhost:7071/api/`
   "stock": 4
 }
 ```
+
+---
+
+## Integración con Azure Event Grid
+
+Al crear un préstamo mediante la mutación GraphQL `crearPrestamo`, la función publica automáticamente un evento en un topic de Azure Event Grid.
+
+### Evento publicado: `prestamo-libros.PrestamoCreado`
+
+| Campo | Valor |
+|-------|-------|
+| **Tipo** | `prestamo-libros.PrestamoCreado` |
+| **Subject** | `prestamos/{id}` |
+| **Versión de datos** | `1.0` |
+
+#### Payload del evento
+
+```json
+{
+  "idPrestamo": 1,
+  "idUsuario": 1,
+  "idLibro": 2,
+  "accion": "CREAR_PRESTAMO"
+}
+```
+
+### Variables de entorno requeridas
+
+| Variable | Descripción |
+|----------|-------------|
+| `EVENT_GRID_TOPIC_ENDPOINT` | URL del topic de Event Grid (ej. `https://<topic>.eventgrid.azure.net/api/events`) |
+| `EVENT_GRID_TOPIC_KEY` | Access key del topic de Event Grid |
+
+> El evento se publica de forma síncrona al momento de confirmar la creación del préstamo en la base de datos.
 
 ---
 
@@ -233,6 +270,8 @@ src/
 │   │   │   ├── UsuarioRepository.java
 │   │   │   ├── LibroRepository.java
 │   │   │   └── PrestamoRepository.java
+│   │   ├── events/
+│   │   │   └── EventGridPublisher.java      # Publicación de eventos a Event Grid
 │   │   ├── graphql/
 │   │   │   ├── GraphQLConfig.java           # Construcción del motor GraphQL
 │   │   │   └── PrestamoDataFetchers.java    # Resolvers de préstamos

@@ -6,6 +6,7 @@ com\musabeli\repository\UsuarioRepository.class
 com\musabeli\entities\Prestamo$PrestamoBuilder.class
 com\musabeli\entities\Usuario.class
 com\musabeli\entities\Libro.class
+com\musabeli\events\EventGridPublisher.class
 com\musabeli\config\GsonConfig.class
 com\musabeli\repository\PrestamoRepository.class
 com\musabeli\functions\GraphQLFunction.class

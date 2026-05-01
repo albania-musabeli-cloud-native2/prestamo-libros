@@ -1,4 +1,4 @@
-# Created at 2026-04-10T15:35:01.168
+# Created at 2026-05-01T15:56:11.206
 Boot Manifest-JAR contains absolute paths in classpath 'D:\Bani\CLOUD_NATIVE_2\Sumativa_1\prestamo-libros\target\test-classes'
 Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
 'other' has different root

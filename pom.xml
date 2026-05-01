@@ -50,6 +50,13 @@
             <version>21.19.0.0</version>
         </dependency>
 
+        <!-- Azure Event Grid -->
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-messaging-eventgrid</artifactId>
+            <version>4.20.0</version>
+        </dependency>
+
         <!-- GSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
