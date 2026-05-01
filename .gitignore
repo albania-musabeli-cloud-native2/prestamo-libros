@@ -1,0 +1,14 @@
+# Secrets and local config
+local.settings.json
+
+# Maven
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
